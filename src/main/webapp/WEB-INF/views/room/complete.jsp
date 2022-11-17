@@ -105,7 +105,7 @@
 						<div class="box-2-1 row"
 							style="text-align: center; padding-block: 10px; border-top: 1px solid #7b6f4bf2;">
 							<div class="col-2">투숙 일자</div>
-							<div class="col-2">객실 요금 (1박)</div>
+							<div class="col-2">객실 요금 (<span>1</span>박)</div>
 							<div class="col-2">성인 조식</div>
 							<div class="col-2">어린이 조식</div>
 							<div class="col-2">엑스트라 베드</div>
@@ -151,7 +151,7 @@
 	<%@ include file="../common/footer.jsp"%>
 	<script>
 
-		$('.customer-info').mouseout(function(){
+		$('.que1').mouseenter(function(){
 			let checkinDate = $('#checkinDate').text();
 			let checkoutDate = $('#checkoutDate').text();
 			let days = moment(checkoutDate).diff(moment(checkinDate), 'days');

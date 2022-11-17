@@ -384,7 +384,7 @@ $(function(){
 		let checkinDate = $('#checkinDate').text();
 		let checkoutDate = $('#checkoutDate').text();
 		let days = moment(checkoutDate).diff(moment(checkinDate), 'days');
-		let totalPrice = (parseInt(days)*(parseInt(roomPrice)+parseInt(totalOptionPrice)+parseInt(vat)));
+		let totalPrice = (parseInt(days)*(parseInt(roomPrice)+parseInt(vat)))+parseInt(totalOptionPrice);
 		let b = totalPrice.toLocaleString();
 		
 		$('#night').text(days);

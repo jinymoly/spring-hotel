@@ -599,7 +599,7 @@ $('.btn-rev').click(function(){
 	});
 	
 	fp1.config.onChange.push(function(selectedDates) {
-		fp2.config.maxDate = selectedDates[0].fp_incr(30);
+		fp2.config.maxDate = selectedDates[0].fp_incr(21);
 		fp2.set('enable', [ function(date) { return (date >= selectedDates[0].fp_incr(1)) } ])
 	} );
 		
