@@ -2,14 +2,11 @@ package com.sh.config;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sh.argumentResolver.LoginUserArgumentResolver;
-import com.sh.interceptor.LoginCheckInterceptor;
 
 /**
  * <p>WebMvcConfig 클래스는 spring-mvc 관련 설정을 정의하는 클래스다.
@@ -19,7 +16,6 @@ import com.sh.interceptor.LoginCheckInterceptor;
  * 			<p> 사용자정의 인터셉터를 등록시키는 메소드다.
  * 		<p>addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers)
  * 			<p> 사용자정의 argumentResolver를 등록시키는 메소드다.
- * @author LeeJewon
  *
  */
 
@@ -40,7 +36,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 //	}
 	
 	/*
-	 * @Override public void addInterceptors(InterceptorRegistry registry) {
+	 * @Override 
+	 * public void addInterceptors(InterceptorRegistry registry) {
 	 * registry.addInterceptor(new LoginCheckInterceptor()) .addPathPatterns("/**")
 	 * // 모든 요청에 대해서 인터셉터가 실행된다. .excludePathPatterns("/resources/**", "/*.ico"); //
 	 * 단, 정적컨텐츠를 요청하는 경우 인터셉터 실행은 제외된다. }

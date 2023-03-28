@@ -14,8 +14,7 @@ import lombok.Setter;
 @Alias("RoomRev")
 public class RoomRev {
 
-	//31
-	private int no;
+	private int no; // 예약 번호 
 	private int adult;
 	private int child;
 	private int totalPrice; // 예약 총 금액
@@ -42,7 +41,7 @@ public class RoomRev {
 	private Room room;
 
 	private String locationName;
-	private String roomName;
+	private String roomName;// roomtype
 	private String userTitle;
 	private String userName; // 비회원용
 	private String firstName; // 비

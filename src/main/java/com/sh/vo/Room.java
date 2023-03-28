@@ -14,8 +14,8 @@ import lombok.ToString;
 @Alias("Room")
 public class Room {
 	
-	private int id;
-	private int no;
+	private int id; // 지점 별 호실이 같을 수 있어 id를 사용 해 고유 번호를 부여 
+	private int no; // 몇 호 
 	private String name;
 	private int price;
 	private int discountPrice;
