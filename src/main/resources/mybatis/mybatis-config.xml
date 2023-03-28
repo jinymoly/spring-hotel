@@ -14,5 +14,6 @@
 		 -->
 		 <package name="com.sh.vo"/>
 		 <package name="com.sh.criteria"/>
+		 <package name="com.sh.dto"/>
 	</typeAliases>
 </configuration>
