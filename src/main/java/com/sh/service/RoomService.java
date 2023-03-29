@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sh.criteria.RoomCriteria;
+import com.sh.dto.RoomRevUpdateDto;
+import com.sh.exception.NoSuchRoomRevException;
 import com.sh.mapper.RoomMapper;
-import com.sh.mapper.UserMapper;
 import com.sh.vo.Location;
 import com.sh.vo.Room;
 import com.sh.vo.RoomAmenity;
@@ -101,13 +102,13 @@ public class RoomService {
 //	객실 detail 페이지 
 	public Room getRoomDetail(int roomCategoryNo) {
 		RoomCategory roomCategory = roomMapper.getRoomCategoryByNo(roomCategoryNo);
-		RoomInfo roomInfo = roomMapper.getRoomInfoByRoomCategoryNo(roomCategoryNo);
+		List<RoomInfo> roomInfo = roomMapper.getRoomInfoByRoomCategoryNo(roomCategoryNo);
 		List<RoomAmenity> amenities = roomMapper.getAllRoomAmenitiesByRoomCategoryNo(roomCategoryNo);
 		
 		Room room = new Room();
 		room.setRoomCategory(roomCategory);
 		room.setAmenities(amenities);
-		room.setRoomInfo(List.of(roomInfo));
+		room.setRoomInfo(roomInfo);
 		
 		return room;
 	}
@@ -163,6 +164,46 @@ public class RoomService {
 
 	public RoomCategory getRoomCategoryByGroupNo(int roomGroupNo) {
 		return roomMapper.getRoomCategoryByGroupNo(roomGroupNo);
+	}
+
+	// 비회원 예약 조회 
+	public RoomRev getRevNonMember(int no, String name) {
+		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
+		if(roomRev == null || !roomRev.getUserName().equals(name)) 
+			throw new NoSuchRoomRevException();
+		
+			return roomRev;
+	}
+	
+	// 비회원 예약 취소 - 상태 변경 
+	public void deleteRoomRevByNonMember(int no){
+		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
+		if(roomRev.getStatus().equals("D")) {
+			throw new NoSuchRoomRevException("이미 취소된 예약입니다.");
+		} if(roomRev.getDeleted().equals("Y")){
+			throw new NoSuchRoomRevException("이미 취소된 예약입니다.");
+		}else {
+			roomRev.setStatus("D");
+			roomRev.setDeleted("Y");
+			roomMapper.updateRoomRevByStatus(roomRev);
+		}
+	}
+
+	// 비회원 예약 변경 - 체크인 시간, 요청사항만 추가 가능
+	public void updateRoomRev(int revNo, RoomRevUpdateDto revUpdateDto) throws IOException{
+		RoomRev roomRevNo = roomMapper.getRoomRevByRoomRevNo(revNo);
+		if(roomRevNo.getNo() != revUpdateDto.getNo()){
+			throw new NoSuchRoomRevException("올바르지 않은 예약번호 입니다.");
+		} else {
+			RoomRev roomrev = new RoomRev();
+			roomrev.setNo(revUpdateDto.getNo());
+			roomrev.setOptionCheckinTime(revUpdateDto.getOptionCheckinTime());
+			roomrev.setRequest(revUpdateDto.getRequest());
+			roomrev.setUpdatedDate(revUpdateDto.getUpdatedDate());
+			
+			roomMapper.updateRoomRev(revUpdateDto);
+		}
+		
 	}
 
 }

@@ -5,26 +5,26 @@ package com.sh.controller;
 import java.io.IOException;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.sh.mapper.RoomMapper;
+import com.sh.dto.RoomRevUpdateDto;
 import com.sh.service.RoomService;
 import com.sh.vo.Room;
-import com.sh.vo.RoomAmenity;
-import com.sh.vo.RoomCategory;
-import com.sh.vo.RoomInfo;
-import com.sh.vo.RoomOptions;
+import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
 
 @Controller
@@ -108,6 +108,37 @@ public class RoomController {
 		sessionStatus.setComplete(); // 세션에 저장된 roomrevForm 객체를 clear 
 		return "room/complete";
 	}
+
+
+	//비회원 예약 조회 
+	@GetMapping("/confirmRevInfo")
+	public String nonMemRevInfo(@RequestParam("roomRevNo") int no, @RequestParam("userName") String name, Model model){
+			RoomRev roomRev = roomService.getRevNonMember(no, name);
+			model.addAttribute("roomRev", roomRev);
+		
+			return "/room/confirmRevInfo?roomRevNo=" + no;
+	}
+
+	// 비회원 예약 변경 - request, updateDate(Date), checkin-time(String)
+	@ResponseBody
+	@PatchMapping(path = "/updateRoomRev")
+	public ResponseEntity<String> updateRoomRev(@RequestBody RoomRevUpdateDto roomRevUpdateDto, @RequestParam("roomRevNo")int revNo) throws IOException{
+		roomService.updateRoomRev(revNo, roomRevUpdateDto);
+
+		return new ResponseEntity<>("예약정보가 변경되었습니다.", HttpStatus.OK);
+	}
+
+	// 비회원 예약 취소(status를 "R" -> "D")로 하며 예약 내역은 삭제하지 않는다.
+	@ResponseBody
+	@PatchMapping(path = "/deleteRoomRev")
+	public ResponseEntity<String> deleteRoomRev(@RequestParam("revNo")int revNo, @RequestBody RoomRev roomRev){
+		roomService.getRoomRevByRoomRevNo(revNo);
+		roomService.deleteRoomRevByNonMember(revNo);
+
+		return new ResponseEntity<>("객실 예약이 취소되었습니다.", HttpStatus.OK);
+	}
+
+	
 	
 	
 }

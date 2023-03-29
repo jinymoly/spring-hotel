@@ -3,18 +3,16 @@ package com.sh.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-
 import com.sh.criteria.AdminRoomRevCriteria;
 import com.sh.criteria.RoomCriteria;
+import com.sh.dto.RoomRevUpdateDto;
 import com.sh.vo.Location;
-import com.sh.vo.Pay;
 import com.sh.vo.Room;
 import com.sh.vo.RoomAmenity;
 import com.sh.vo.RoomCategory;
 import com.sh.vo.RoomInfo;
 import com.sh.vo.RoomOptions;
 import com.sh.vo.RoomRev;
-import com.sh.vo.User;
 import com.sh.web.form.RoomReservationForm;
 
 @Mapper
@@ -62,7 +60,7 @@ public interface RoomMapper {
 	// 모든 객실 detail
 	List<RoomInfo> getAllRoomInfo();
 	// 객실별 detail 
-	RoomInfo getRoomInfoByRoomCategoryNo(int no);
+	List<RoomInfo> getRoomInfoByRoomCategoryNo(int no);
 	
 	// 모든 룸 옵션 - 조식, 엑스트라 베드
 	List<RoomOptions> getAllRoomOptions();
@@ -92,4 +90,9 @@ public interface RoomMapper {
 	
 	List<RoomAmenity> getAllRoomAmenitiesByRoomCategoryNo(int roomCategoryNo);
 
+	// 예약 정보 업데이트 - dto로 분리 
+	void updateRoomRev(RoomRevUpdateDto roomRevUpdateDto);
+
+	// 예약 취소 시 상태 변경 
+	void updateRoomRevByStatus(RoomRev roomRev);
 }

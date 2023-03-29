@@ -163,7 +163,7 @@
 	</resultMap>
 	
 	<!-- 객실별 detail -->
-	<!-- RoomInfo getRoomInfoByRoomCategoryNo(int no); -->
+	<!-- List<RoomInfo> getRoomInfoByRoomCategoryNo(int no); -->
 	<select id="getRoomInfoByRoomCategoryNo" parameterType="int" resultType="RoomInfo">
 		select room_info_detail_image as image, room_info_room as room, 
 				room_info_etc as etc, room_info_service as service, room_info_side as side, 
@@ -212,7 +212,7 @@
 				order by room_price asc
 			</when>	
 			<when test="sort == 'highPrice'">
-				order by room_id desc
+				order by room_price desc
 			</when>	
 		</choose>
 	</select> 
@@ -327,6 +327,27 @@
 		where room_rev_no = #{value}
 	</select>
 
+	<!-- 예약 변경 -->
+	<!-- void updateRoomRev(RoomRevUpdateDto roomRevUpdateDto); -->
+	<update id = "updateRoomRev" parameterType="RoomRevUpdateDto">
+		update sh_room_rev
+		set
+			room_rev_option_checkin_time = #{optionCheckinTime},
+			room_rev_request = #{request},
+			room_rev_updated_date = sysdate
+		where room_rev_no = #{no}
+	</update>
+
+	<!-- 예약 취소 (status를 "R" -> "D", deleted를 "N" -> "Y")로 하며 예약 내역은 삭제하지 않는다. -->
+	<!-- void updateRoomRev(int roomRevNo); -->
+	<update id = "updateRoomRevByStatus" parameterType="RoomRev">
+		update sh_room_rev
+		set
+			room_rev_status = #{status},
+			room_rev_deleted = #{deleted},
+			room_rev_updated_date = sysdate
+		where room_rev_no = #{no}
+	</update>
 </mapper>
 
 
