@@ -83,7 +83,7 @@
 	                   <li class="list-inline-item dropdown">
 	                       <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-menu" role="button" data-bs-toggle="dropdown" aria-expanded="false">예약확인</a>
 	                       <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-menu">
-	                           <li style="border-bottom: 2px solid rgb(129, 114, 95);"><a class="dropdown-item" href="">객실</a></li>
+	                           <li style="border-bottom: 2px solid rgb(129, 114, 95);"><a class="dropdown-item" href="/user/room">객실</a></li>
 	                           <c:if test="${not empty LOGIN_USER }">
 	                          		 <li><a class="dropdown-item" href="/user/dining">다이닝</a></li>
 	                           </c:if>

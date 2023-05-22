@@ -223,7 +223,7 @@ function findPw() {
 				$(".findPw").css('display','none');
 				$(".findPwBtn").css('display','none');
 				$(".findPwCloseBtn").html("확인");
-				let content = '<p class="text-center">임시 비밀번호를 '+email+'로 보냈습니다.</p>';
+				let content = '<p class="text-center">임시 비밀번호를 <strong>'+email+'</strong>로 보냈습니다.</p>';
 				$(".showPw").append(content);
 			} else if (data =="fail"){
 				alert("아이디 혹은 이메일이 잘못되었습니다.");
