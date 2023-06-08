@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sh.criteria.RoomCriteria;
 import com.sh.dto.RoomRevUpdateDto;
-import com.sh.exception.NoSuchRoomRevException;
+import com.sh.exception.ErrorCode;
+import com.sh.exception.RoomRevException;
 import com.sh.mapper.RoomMapper;
 import com.sh.vo.Location;
 import com.sh.vo.Room;
@@ -169,9 +170,11 @@ public class RoomService {
 	// 비회원 예약 조회 
 	public RoomRev getRevNonMember(int no, String name) {
 		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
-		if(roomRev == null || !roomRev.getUserName().equals(name)) 
-			throw new NoSuchRoomRevException();
-		
+		if(roomRev == null){
+			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV_INFO);
+		} else if(!roomRev.getUserName().equals(name)){
+			throw new RoomRevException(ErrorCode.NOT_FOUND_USER_INFO);
+		}
 			return roomRev;
 	}
 	
@@ -179,9 +182,9 @@ public class RoomService {
 	public void deleteRoomRevByNonMember(int no){
 		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
 		if(roomRev.getStatus().equals("D")) {
-			throw new NoSuchRoomRevException("이미 취소된 예약입니다.");
+			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV);
 		} if(roomRev.getDeleted().equals("Y")){
-			throw new NoSuchRoomRevException("이미 취소된 예약입니다.");
+			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV);
 		}else {
 			roomRev.setStatus("D");
 			roomRev.setDeleted("Y");
@@ -193,7 +196,7 @@ public class RoomService {
 	public void updateRoomRev(int revNo, RoomRevUpdateDto revUpdateDto) throws IOException{
 		RoomRev roomRevNo = roomMapper.getRoomRevByRoomRevNo(revNo);
 		if(roomRevNo.getNo() != revUpdateDto.getNo()){
-			throw new NoSuchRoomRevException("올바르지 않은 예약번호 입니다.");
+			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV_INFO);
 		} else {
 			RoomRev roomrev = new RoomRev();
 			roomrev.setNo(revUpdateDto.getNo());
