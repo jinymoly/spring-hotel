@@ -76,6 +76,9 @@ public interface RoomMapper {
 	// 예약번호로 예약정보 가져오기
 	RoomRev getRoomRevByRoomRevNo(int no);
 
+	// 예약자 이름으로 예약정보 가져오기 ====== Test ======
+	RoomRev findRoomRevByUserName(String name);
+
 	// 로케 번호로 모든 객실 반환 
 	List<Room> getAllRoomByLocationNo(int no);
 	
@@ -95,4 +98,5 @@ public interface RoomMapper {
 
 	// 예약 취소 시 상태 변경 
 	void updateRoomRevByStatus(RoomRev roomRev);
+
 }

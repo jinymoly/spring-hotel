@@ -224,11 +224,8 @@
 		from sh_room
 		where sh_room_name = #{value}
 	</select>
-	
-	
 
 	<!-- RoomCategory getRoomCategoryByGroupNo(int roomGroupNo);  dd-->
-
 	<select id="getRoomCategoryByGroupNo" parameterType="int">
 		select room_category_no as roomCategory, room_category_name as name, category_no as category, room_group_no as roomGroupNo
 		from sh_room_category
@@ -318,7 +315,6 @@
 			</choose>
 	</insert>
 	
-	
 	<!-- 예약번호로 예약정보 가져오기 -->
 	<!-- RoomRev getRoomRevByRoomRevNo(int no); -->
 	<select id="getRoomRevByRoomRevNo" parameterType="int" resultMap="RoomRevResultMap">
@@ -326,7 +322,13 @@
 		from sh_room_rev
 		where room_rev_no = #{value}
 	</select>
-
+	<!-- 이름으로 예약정보 가져오기 -->
+	<!-- RoomRev findRoomRevByUserName(String name) -->
+	<select id="findRoomRevByUserName" parameterType="String" resultMap="RoomRevResultMap">
+		select *
+		from sh_room_rev
+		where room_rev_user_name = #{name}
+	</select>
 	<!-- 예약 변경 -->
 	<!-- void updateRoomRev(RoomRevUpdateDto roomRevUpdateDto); -->
 	<update id = "updateRoomRev" parameterType="RoomRevUpdateDto">
