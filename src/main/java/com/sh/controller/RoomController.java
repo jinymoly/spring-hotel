@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.sh.dto.RoomRevUpdateDto;
+import com.sh.exception.RoomRevException;
 import com.sh.service.RoomService;
 import com.sh.vo.Room;
 import com.sh.vo.RoomRev;
@@ -38,8 +39,6 @@ public class RoomController {
 //객실 메인페이지 
 	@GetMapping(path="/roomHome")
 	public String home(Model model) {
-
-		
 		model.addAttribute("roomCategories", roomService.getAllRoomCategories());
 		model.addAttribute("rooms", roomService.getAllRooms());
 
@@ -48,9 +47,7 @@ public class RoomController {
 
 //객실 상세페이지
 	@GetMapping(path="/roomDetail")
-
 	public String detail(@RequestParam("categoryNo") int roomCategoryNo, Model model ) {
-//	public String detail( ) {
 		Room room = roomService.getRoomDetail(roomCategoryNo);
 		model.addAttribute("room", room);
 
@@ -61,7 +58,6 @@ public class RoomController {
 	//1 - 호텔, 날짜, 인원 선택
 	@GetMapping(path="/roomRev1")
 	public String roomRev1(@RequestParam(name="location", required = false)String locationName , Model model) {
-		
 		model.addAttribute("locations", roomService.getAllLocations());
 		model.addAttribute("roomCategories", roomService.getAllRoomCategories());
 		model.addAttribute("rooms", roomService.getAllRooms());
@@ -80,15 +76,14 @@ public class RoomController {
 	//2 - 옵션 선택 
 	@PostMapping(path="/roomRev2")
 	public String roomRev2(@ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) { 
+		System.out.println(roomReservationForm);
 		
-			System.out.println(roomReservationForm);
 		return "room/roomRev2";
 	
 	}
 	//3 - 고객 정보 입력 
 	@PostMapping(path="/roomRev3")
 	public String roomRev3(@ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) {
-		
 		System.out.println(roomReservationForm);
 		return "room/roomRev3";
 	}
@@ -112,11 +107,14 @@ public class RoomController {
 
 	//비회원 예약 조회 
 	@GetMapping("/confirmRevInfo")
-	public String nonMemRevInfo(@RequestParam("roomRevNo") int no, @RequestParam("userName") String name, Model model){
-			RoomRev roomRev = roomService.getRevNonMember(no, name);
+	public String nonMemRevInfo(@RequestParam("roomRevNo") int no, Model model){
+		try {
+			RoomRev roomRev = roomService.getRevNonMember(no);
 			model.addAttribute("roomRev", roomRev);
-		
-			return "/room/confirmRevInfo?roomRevNo=" + no;
+		} catch (RoomRevException e) {
+			return "redirect:/room/confirmRevInfo";
+		}	
+		return "room/confirmRevInfo?roomRevNo=" + no;
 	}
 
 	// 비회원 예약 변경 - request, updateDate(Date), checkin-time(String)

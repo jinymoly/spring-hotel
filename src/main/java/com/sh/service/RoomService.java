@@ -168,16 +168,13 @@ public class RoomService {
 	}
 
 	// 비회원 예약 조회 
-	public RoomRev getRevNonMember(int no, String name) {
+	public RoomRev getRevNonMember(int no) {
 		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
-		if(roomRev == null){
+		if(roomRev == null)
 			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV_INFO);
-		} else if(!roomRev.getUserName().equals(name)){
-			throw new RoomRevException(ErrorCode.NOT_FOUND_USER_INFO);
-		}
-			return roomRev;
+		return roomRev;
 	}
-	
+
 	// 비회원 예약 취소 - 상태 변경 
 	public void deleteRoomRevByNonMember(int no){
 		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
