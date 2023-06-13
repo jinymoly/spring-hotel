@@ -14,6 +14,7 @@ import com.sh.vo.RoomInfo;
 import com.sh.vo.RoomOptions;
 import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
+import com.sh.web.form.RoomRevCancelForm;
 
 @Mapper
 public interface RoomMapper {
@@ -97,6 +98,6 @@ public interface RoomMapper {
 	void updateRoomRev(RoomRevUpdateDto roomRevUpdateDto);
 
 	// 예약 취소 시 상태 변경 
-	void updateRoomRevByStatus(RoomRev roomRev);
+	void cancelRoomRevByStatusUpdate(RoomRevCancelForm cancelForm);
 
 }

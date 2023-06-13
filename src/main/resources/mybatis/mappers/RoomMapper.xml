@@ -269,6 +269,7 @@
 		<result column="room_rev_card_valid_year" property="validYear"/>
 		<result column="room_price" property="roomPrice"/>
 		<result column="is_m" property="isMem"/>
+		<result column="room_rev_deleted" property="deleted"/>
 		<association property="user" column="user_no" select="com.sh.mapper.UserMapper.getUserByNo"></association>
 		<association property="room" column="room_id" select="com.sh.mapper.RoomMapper.getRoomById"></association>
 	</resultMap>
@@ -341,8 +342,8 @@
 	</update>
 
 	<!-- 예약 취소 (status를 "R" -> "D", deleted를 "N" -> "Y")로 하며 예약 내역은 삭제하지 않는다. -->
-	<!-- void updateRoomRev(int roomRevNo); -->
-	<update id = "updateRoomRevByStatus" parameterType="RoomRev">
+	<!-- void cancelRoomRevByStatusUpdate(int roomRevNo); -->
+	<update id = "cancelRoomRevByStatusUpdate" parameterType="com.sh.web.form.RoomRevCancelForm">
 		update sh_room_rev
 		set
 			room_rev_status = #{status},

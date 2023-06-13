@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.text.SimpleDateFormat;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
@@ -20,11 +21,12 @@ import com.sh.mapper.RoomMapper;
 import com.sh.service.RoomService;
 import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
+import com.sh.web.form.RoomRevCancelForm;
 
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest(classes = FinalSpringHotelApplication.class)
-@ExtendWith(SpringExtension.class) // junit5 에서의 Runwith와 같다, JUnit5는 JUnit Vintage라는 서브패키지를 통해 자체적으로 하위호환성을 포함
+@ExtendWith(SpringExtension.class) // junit4에서의 Runwith와 같다, JUnit5는 JUnit Vintage라는 서브패키지를 통해 자체적으로 하위호환성을 포함
 @Slf4j
 public class RoomRevTest {
     
@@ -56,8 +58,9 @@ public class RoomRevTest {
     @Transactional
     public void findRoomReservationInfo() {
         Throwable exception = assertThrows(RoomRevException.class, () -> roomService.getRevNonMember(2222));
-        //assertEquals("예약 번호가 존재하지 않습니다.", exception.getMessage());
-        log.info("====== ERROR ===== 예약 조회 실패 이유 : " + exception.getMessage() +" ======");
+        assertEquals("예약 번호가 존재하지 않습니다.", exception.getMessage());
+        //log.info("====== ERROR ===== 예약 조회 실패 이유 : " + exception.getMessage() +" ======");
+        log.error("====== ERROR ====== " + exception.getMessage() + " ======");
 
         
     }
@@ -81,7 +84,25 @@ public class RoomRevTest {
 
     }
 
-    // 예약 취소 << 상태 변경
+    // 취소는 상태변경이다. room_rev_deleted : 'N' -> 'Y'로 변경됨
+    @Test
+    @DisplayName("예약 취소 테스트")
+    public void cancelRoomRev() throws Exception {
+        RoomRev deleteInfo = roomMapper.getRoomRevByRoomRevNo(1081);
+        
+        RoomRevCancelForm cancelForm = new RoomRevCancelForm();
+        cancelForm.setNo(deleteInfo.getNo());
+        roomMapper.cancelRoomRevByStatusUpdate(cancelForm);   
+        
+        assertEquals("D", deleteInfo.getStatus());
+        assertEquals("Y", deleteInfo.getDeleted());
+
+        log.info("====== 예약 번호 " + deleteInfo.getNo() + " 내역 조회합니다. ======");
+        log.info("====== 예약 상태 : " + "[ "+deleteInfo.getStatus() + " ]" + " ==== 'Deleted'로 업데이트 되었습니다. ======");
+        log.info("====== " + deleteInfo.getDeleted() + " ==== 예약이 취소 되었습니다. ======");
+        log.info("====== 업데이트 날짜 : " + deleteInfo.getUpdatedDate() + " 입니다. ======");
+
+    }
     
 
     // test용 데이터 생성 
