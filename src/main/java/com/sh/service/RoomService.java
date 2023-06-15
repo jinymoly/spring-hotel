@@ -20,6 +20,7 @@ import com.sh.vo.RoomInfo;
 import com.sh.vo.RoomOptions;
 import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
+import com.sh.web.form.RoomRevCancelForm;
 
 @Service
 @Transactional
@@ -176,16 +177,19 @@ public class RoomService {
 	}
 
 	// 비회원 예약 취소 - 상태 변경 
-	public void deleteRoomRevByNonMember(int no){
+	public void deleteRoomRevByNonMember(int no, RoomRevCancelForm cancelForm){
 		RoomRev roomRev = roomMapper.getRoomRevByRoomRevNo(no);
+		
 		if(roomRev.getStatus().equals("D")) {
 			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV);
 		} if(roomRev.getDeleted().equals("Y")){
 			throw new RoomRevException(ErrorCode.NOT_FOUND_ROOM_REV);
 		}else {
-			roomRev.setStatus("D");
-			roomRev.setDeleted("Y");
-			roomMapper.updateRoomRevByStatus(roomRev);
+			RoomRevCancelForm serviceCancelForm = new RoomRevCancelForm();
+        	serviceCancelForm.setNo(roomRev.getNo());
+        	roomMapper.cancelRoomRevByStatusUpdate(serviceCancelForm);
+			
+			roomMapper.cancelRoomRevByStatusUpdate(serviceCancelForm);
 		}
 	}
 

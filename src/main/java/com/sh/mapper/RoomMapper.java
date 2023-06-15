@@ -32,6 +32,7 @@ public interface RoomMapper {
 	// 모든 지역 
 	List<Location> getAllLocations();
 	
+	// 모든 객실
 	List<Room> getAllRooms();
 	
 	// 지역 이름으로 지역호텔 찾기

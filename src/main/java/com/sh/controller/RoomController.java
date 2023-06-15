@@ -27,6 +27,7 @@ import com.sh.service.RoomService;
 import com.sh.vo.Room;
 import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
+import com.sh.web.form.RoomRevCancelForm;
 
 @Controller
 @RequestMapping("/room")
@@ -126,12 +127,12 @@ public class RoomController {
 		return new ResponseEntity<>("예약정보가 변경되었습니다.", HttpStatus.OK);
 	}
 
-	// 비회원 예약 취소(status를 "R" -> "D")로 하며 예약 내역은 삭제하지 않는다.
+	// 비회원 예약 취소(status를 "R" -> "D")로 변경하며 예약 내역은 삭제하지 않는다.
 	@ResponseBody
 	@PatchMapping(path = "/deleteRoomRev")
-	public ResponseEntity<String> deleteRoomRev(@RequestParam("revNo")int revNo, @RequestBody RoomRev roomRev){
+	public ResponseEntity<String> deleteRoomRev(@RequestParam("revNo")int revNo, @RequestBody RoomRevCancelForm cancelForm){
 		roomService.getRoomRevByRoomRevNo(revNo);
-		roomService.deleteRoomRevByNonMember(revNo);
+		roomService.deleteRoomRevByNonMember(revNo, cancelForm);
 
 		return new ResponseEntity<>("객실 예약이 취소되었습니다.", HttpStatus.OK);
 	}
