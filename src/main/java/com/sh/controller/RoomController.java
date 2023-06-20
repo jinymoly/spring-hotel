@@ -89,7 +89,7 @@ public class RoomController {
 		return "room/roomRev3";
 	}
 	
-	@PostMapping(path="/insert")
+	@PostMapping(path="/save")
 	public String insert( @ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) throws IOException{ // + 로그인 
 		roomService.addNewReservation(roomReservationForm);
 		model.addAttribute("roomReservationForm", roomReservationForm);

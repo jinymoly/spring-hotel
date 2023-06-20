@@ -14,7 +14,7 @@ public enum ErrorCode {
     NOT_FOUND_ROOM_REV(HttpStatus.NOT_FOUND, "404", "이미 취소된 예약입니다.");
     
     private final HttpStatus status;
-    private final String eCode;
-    private final String eMessage;
+    private final String errCode;
+    private final String errMessage;
 
 }

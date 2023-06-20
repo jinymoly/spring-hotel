@@ -32,7 +32,7 @@
 			<div class="rev-step">
 				<img alt="" src="../resources/images/room/rev/revTitle3.png">
 			</div>
-			<form id="form-rev" name="form-rev" action="insert" method="post">
+			<form id="form-rev" name="form-rev" action="save" method="post">
 				<!-- action 1 -->
 				<div id="Accordion_wrap1" style="border: 0.01em solid #80808063;">
 					<div class="que1">
