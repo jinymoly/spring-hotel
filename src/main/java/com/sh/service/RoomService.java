@@ -207,7 +207,5 @@ public class RoomService {
 			
 			roomMapper.updateRoomRev(revUpdateDto);
 		}
-		
 	}
-
 }

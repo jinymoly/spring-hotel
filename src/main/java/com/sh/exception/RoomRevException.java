@@ -10,7 +10,4 @@ public class RoomRevException extends RuntimeException{
         super(e.getErrMessage());
         this.errorCode = e;
     }
-
-    
-    
 }

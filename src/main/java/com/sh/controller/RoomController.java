@@ -115,7 +115,7 @@ public class RoomController {
 		} catch (RoomRevException e) {
 			return "redirect:/room/confirmRevInfo";
 		}	
-		return "room/confirmRevInfo?roomRevNo=" + no;
+		return "redirect:/room/complete?roomRevNo=" + no;
 	}
 
 	// 비회원 예약 변경 - request, updateDate(Date), checkin-time(String)

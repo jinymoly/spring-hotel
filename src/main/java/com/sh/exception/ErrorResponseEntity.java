@@ -18,7 +18,7 @@ public class ErrorResponseEntity {
     private String errorMessage;
 
     public static ResponseEntity<ErrorResponseEntity> toResponseEntity(ErrorCode e) {
-        return ResponseEntity.status(e.getStatus()) // 메소드 체이닝을 사용한 빌더패턴으로 의미가 직관적, 유지보수 굿
+        return ResponseEntity.status(e.getStatus())
                             .body(ErrorResponseEntity.builder()
                                     .status(e.getStatus().value())
                                     .errorCode(e.name())
