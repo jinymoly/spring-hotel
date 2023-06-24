@@ -188,8 +188,6 @@ public class RoomService {
 			RoomRevCancelForm serviceCancelForm = new RoomRevCancelForm();
         	serviceCancelForm.setNo(roomRev.getNo());
         	roomMapper.cancelRoomRevByStatusUpdate(serviceCancelForm);
-			
-			roomMapper.cancelRoomRevByStatusUpdate(serviceCancelForm);
 		}
 	}
 
