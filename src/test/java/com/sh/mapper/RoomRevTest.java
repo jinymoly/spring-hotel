@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.sh.mapper;
 
 import java.text.SimpleDateFormat;
 
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sh.FinalSpringHotelApplication;
 import com.sh.dto.RoomRevUpdateDto;
 import com.sh.exception.RoomRevException;
-import com.sh.mapper.RoomMapper;
 import com.sh.service.RoomService;
 import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
