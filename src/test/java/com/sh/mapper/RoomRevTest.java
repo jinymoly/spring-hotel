@@ -22,11 +22,11 @@ import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
 import com.sh.web.form.RoomRevCancelForm;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest(classes = FinalSpringHotelApplication.class)
 @ExtendWith(SpringExtension.class) // junit4에서의 Runwith와 같다, JUnit5는 JUnit Vintage라는 서브패키지를 통해 자체적으로 하위호환성을 포함
-@Slf4j
+@Log4j2
 public class RoomRevTest {
     
     @Autowired
@@ -87,7 +87,7 @@ public class RoomRevTest {
     @Test
     @DisplayName("예약 취소 테스트")
     public void cancelRoomRev() throws Exception {
-        RoomRev deleteInfo = roomMapper.getRoomRevByRoomRevNo(1081);
+        RoomRev deleteInfo = roomMapper.getRoomRevByRoomRevNo(1133);
         
         RoomRevCancelForm cancelForm = new RoomRevCancelForm();
         cancelForm.setNo(deleteInfo.getNo());
