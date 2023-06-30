@@ -2,7 +2,7 @@
 <Configuration status="INFO">
     <Properties>
         <Property name="layoutPattern">%style{%d{yyyy/MM/dd HH:mm:ss.SSS}}{cyan} 
-            %highlight{[%-5p]}{FATAL=bg_red, ERROR=red, INFO=green, DEBUG=blue}  [%C] %style{[%t]}{yellow}- %m%n -</Property>
+            %highlight{[%-5p]}{FATAL=bg_red, ERROR=red, INFO=green, DEBUG=blue}  [%C] %style{[%t]}{bg_yellow}- %m%n -</Property>
     </Properties>
     <Appenders>
         <Console name="LogToConsole" target="SYSTEM_OUT">
