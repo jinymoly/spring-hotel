@@ -23,7 +23,7 @@ public class LogCheckInterceptor implements AsyncHandlerInterceptor{ // HandlerI
     // Request가 들어오고 Controller에 넘어가기 직전에 처리
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("uri : {}", request.getRequestURI());
+        log.info("url : {}", request.getRequestURI());
         return AsyncHandlerInterceptor.super.preHandle(request, response, handler);
     }
 
