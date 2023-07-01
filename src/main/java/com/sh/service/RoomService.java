@@ -188,6 +188,7 @@ public class RoomService {
 			RoomRevCancelForm serviceCancelForm = new RoomRevCancelForm();
         	serviceCancelForm.setNo(roomRev.getNo());
         	roomMapper.cancelRoomRevByStatusUpdate(serviceCancelForm);
+			
 		}
 	}
 
@@ -204,6 +205,7 @@ public class RoomService {
 			roomrev.setUpdatedDate(revUpdateDto.getUpdatedDate());
 			
 			roomMapper.updateRoomRev(revUpdateDto);
+
 		}
 	}
 }

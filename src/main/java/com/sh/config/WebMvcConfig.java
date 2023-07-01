@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sh.argumentResolver.LoginUserArgumentResolver;
+import com.sh.interceptor.LogCheckInterceptor;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * <p>WebMvcConfig 클래스는 spring-mvc 관련 설정을 정의하는 클래스다.
@@ -27,6 +31,7 @@ import com.sh.argumentResolver.LoginUserArgumentResolver;
  * 		이 클래스안에서 @Bean 어노테이션이 지정된 메소드가 반환하는 객체도 스프링 컨테이너의 빈으로 등록된다.
  */
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer{
 
 //  아래는 Configuration 어노테이션 예시
@@ -34,14 +39,14 @@ public class WebMvcConfig implements WebMvcConfigurer{
 //	public PasswordEncoder passworEncoder() {
 //		return new BCryptPasswordEncoder();
 //	}
-	
-	/*
-	 * @Override 
-	 * public void addInterceptors(InterceptorRegistry registry) {
-	 * registry.addInterceptor(new LoginCheckInterceptor()) .addPathPatterns("/**")
-	 * // 모든 요청에 대해서 인터셉터가 실행된다. .excludePathPatterns("/resources/**", "/*.ico"); //
-	 * 단, 정적컨텐츠를 요청하는 경우 인터셉터 실행은 제외된다. }
-	 */
+
+/*
+* @Override 
+* public void addInterceptors(InterceptorRegistry registry) {
+	* registry.addInterceptor(new LoginCheckInterceptor()) .addPathPatterns("/**")
+	* // 모든 요청에 대해서 인터셉터가 실행된다. .excludePathPatterns("/resources/**", "/*.ico"); //
+	* 단, 정적컨텐츠를 요청하는 경우 인터셉터 실행은 제외된다. }
+	*/
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -49,4 +54,19 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		// 사용자정의 LoginUserArgumentResolver 객체를 등록시킨다.
 		resolvers.add(new LoginUserArgumentResolver());
 	}
+	
+	/*
+	 * log체크용 인터셉터 의존성 주입
+	 * addInterceptors : 해당 커스텀 Interceptor 등록 
+	 * addPathPatterns : 원하는 url에 대한 패턴 직접 정의
+	 */
+	private final LogCheckInterceptor logIterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(logIterceptor).addPathPatterns("/**");
+		WebMvcConfigurer.super.addInterceptors(registry);
+    }
+
+	
 }

@@ -29,6 +29,9 @@ import com.sh.vo.RoomRev;
 import com.sh.web.form.RoomReservationForm;
 import com.sh.web.form.RoomRevCancelForm;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @Controller
 @RequestMapping("/room")
 @SessionAttributes("roomReservationForm")
@@ -78,6 +81,7 @@ public class RoomController {
 	@PostMapping(path="/roomRev2")
 	public String roomRev2(@ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) { 
 		System.out.println(roomReservationForm);
+		log.info("Room Controller option check : {}", roomReservationForm);
 		
 		return "room/roomRev2";
 	
@@ -85,7 +89,9 @@ public class RoomController {
 	//3 - 고객 정보 입력 
 	@PostMapping(path="/roomRev3")
 	public String roomRev3(@ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) {
-		System.out.println(roomReservationForm);
+		//System.out.println(roomReservationForm);
+		log.info("Room Controller add user : {}", roomReservationForm);
+
 		return "room/roomRev3";
 	}
 	
@@ -93,6 +99,7 @@ public class RoomController {
 	public String insert( @ModelAttribute("roomReservationForm") RoomReservationForm roomReservationForm, Model model) throws IOException{ // + 로그인 
 		roomService.addNewReservation(roomReservationForm);
 		model.addAttribute("roomReservationForm", roomReservationForm);
+		log.info("Room Controller complete roomRev : {}", roomReservationForm);
 		
 		return "redirect:/room/complete";
 	}
@@ -123,6 +130,9 @@ public class RoomController {
 	@PatchMapping(path = "/updateRoomRev")
 	public ResponseEntity<String> updateRoomRev(@RequestBody RoomRevUpdateDto roomRevUpdateDto, @RequestParam("roomRevNo")int revNo) throws IOException{
 		roomService.updateRoomRev(revNo, roomRevUpdateDto);
+		log.info("Room Controller change : {}", roomRevUpdateDto);
+		log.trace("trace ======== Room Controller change : {}", roomRevUpdateDto);
+
 
 		return new ResponseEntity<>("예약정보가 변경되었습니다.", HttpStatus.OK);
 	}
@@ -133,6 +143,8 @@ public class RoomController {
 	public ResponseEntity<String> deleteRoomRev(@RequestParam("revNo")int revNo, @RequestBody RoomRevCancelForm cancelForm){
 		roomService.getRoomRevByRoomRevNo(revNo);
 		roomService.deleteRoomRevByNonMember(revNo, cancelForm);
+		log.info("Room Controller cancel : {}", cancelForm);
+		log.trace("trace ==========", cancelForm);
 
 		return new ResponseEntity<>("객실 예약이 취소되었습니다.", HttpStatus.OK);
 	}
